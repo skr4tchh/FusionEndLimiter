@@ -1,0 +1,5 @@
+end-world-access:
+  start-time: "12:00"
+  end-time: "20:00"
+  deny-message: "&6ꜰᴜsɪᴏɴᴍɪɴᴇ &7» &fВход в мир Энда запрещен с &6%startTime% &fдо &6%endTime% &fпо МСК."
+  exempt-permission: "endlimiter.exempt"

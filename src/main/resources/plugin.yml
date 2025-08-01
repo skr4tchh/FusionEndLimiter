@@ -1,0 +1,4 @@
+name: FusionEndLimiter
+version: '${version}'
+main: fun.fusionmine.fusionendlimiter.FusionEndLimiter
+api-version: '1.16'
