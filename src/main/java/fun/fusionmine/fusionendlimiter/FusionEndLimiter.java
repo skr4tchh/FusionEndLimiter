@@ -23,8 +23,6 @@ public class FusionEndLimiter extends JavaPlugin implements Listener {
 
     private String denyMessage;
 
-    private String permissionNode;
-
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
@@ -34,7 +32,6 @@ public class FusionEndLimiter extends JavaPlugin implements Listener {
 
     private void loadConfiguration() {
         ConfigurationSection section = getConfig().getConfigurationSection("end-world-access");
-        permissionNode = section.getString("exempt-permission");
         String startTimeStr = section.getString("start-time");
         String endTimeStr = section.getString("end-time");
         denyMessage = ChatColor.translateAlternateColorCodes('&',
@@ -57,20 +54,18 @@ public class FusionEndLimiter extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
-        if (!player.hasPermission(permissionNode)) {
-            if (event.getTo().getWorld().getName().equals("world_the_end")) {
-                LocalTime currentTime = LocalTime.now(ZoneId.of("Europe/Moscow"));
-                if (isOutsideAccessTime(currentTime)) {
-                    event.setCancelled(true);
-                    player.sendMessage(denyMessage);
-                }
+        if (event.getTo().getWorld().getName().equals("world_the_end") && !player.hasPermission("endlimiter.exempt")) {
+            LocalTime currentTime = LocalTime.now(ZoneId.of("Europe/Moscow"));
+            if (isOutsideAccessTime(currentTime)) {
+                event.setCancelled(true);
+                player.sendMessage(denyMessage);
             }
         }
     }
 
     @EventHandler
     public void onPortal(PlayerPortalEvent event) {
-        if(event.getTo().getWorld().getName().equals("world_the_end")) {
+        if(event.getTo().getWorld().getName().equals("world_the_end") && !event.getPlayer().hasPermission("endlimiter.exempt")) {
             event.setCancelled(true);
         }
     }
